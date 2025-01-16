@@ -1,38 +1,34 @@
 /*
-*******************************************************************************
-* Copyright (c) 2022 by M5Stack
-*                  Equipped with M5Core sample source code
-*                          配套  M5Core 示例源代码
-* Visit for more information: https://docs.m5stack.com/en/unit/gesture
-* 获取更多资料请访问: https://docs.m5stack.com/zh_CN/unit/gesture
-*
-* Describe: GESTURE.  手势传感器
-* Date: 2021/11/17
-*******************************************************************************
-  Please connect to Port A (G21, G22)
-  请连接端口A (G21, G22)
+ * SPDX-FileCopyrightText: 2025 M5Stack Technology CO LTD
+ *
+ * SPDX-License-Identifier: MIT
+ */
+/*
+ * @Hardwares: M5Core + Unit Gesture
+ * @Platform Version: Arduino M5Stack Board Manager v2.1.3
+ * @Dependent Library:
+ * M5GFX@^0.2.3: https://github.com/m5stack/M5GFX
+ * M5Unified@^0.2.2: https://github.com/m5stack/M5Unified
+ * DFRobot_PAJ7620U2：https://github.com/ouki-wang/DFRobot_PAJ7620U2
+ */
 
-  编译前请安装依赖库
-  Please install dependent libraries before compiling:
-  https://github.com/ouki-wang/DFRobot_PAJ7620U2
-*/
-
-#include <DFRobot_PAJ7620U2.h>
+#include <M5Unified.h>
 #include <M5GFX.h>
-#include <M5Stack.h>
+#include <DFRobot_PAJ7620U2.h>
 
 M5GFX display;
 M5Canvas canvas(&display);
-
 DFRobot_PAJ7620U2 sensor;
 
-void log(String info) {
+void log(String info)
+{
     Serial.println(info);
     canvas.println(info);
     canvas.pushSprite(0, 0);
 }
 
-void setup() {
+void setup()
+{
     M5.begin();
     display.begin();
 
@@ -53,7 +49,8 @@ void setup() {
     log("Start to recognize");
 }
 
-void loop() {
+void loop()
+{
     /*
      * eGestureNone  eGestureRight  eGestureLeft  eGestureUp  eGestureDown
      * eGestureForward eGestureBackward  eGestureClockwise eGestureAntiClockwise

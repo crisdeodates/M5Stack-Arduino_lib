@@ -1,6 +1,6 @@
 /*
 *******************************************************************************
-* Copyright (c) 2022 by M5Stack
+* Copyright (c) 2023 by M5Stack
 *                  Equipped with M5Core sample source code
 *                          配套  M5Core 示例源代码
 * Visit for more information: https://docs.m5stack.com/en/core/gray
@@ -24,4 +24,5 @@ void setup() {
     // characters.  请根据字符数量选择合适的二维码版本
 }
 
-void loop() {}
+void loop() {
+}

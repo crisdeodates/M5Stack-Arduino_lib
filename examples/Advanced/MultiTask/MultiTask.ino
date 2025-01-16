@@ -1,6 +1,6 @@
 /*
 *******************************************************************************
-* Copyright (c) 2022 by M5Stack
+* Copyright (c) 2023 by M5Stack
 *                  Equipped with M5Core sample source code
 *                          配套  M5Core 示例源代码
 * Visit for more information: https://docs.m5stack.com/en/core/gray
@@ -65,4 +65,5 @@ void setup() {
     xTaskCreatePinnedToCore(task3, "task3", 4096, NULL, 3, NULL, 0);
 }
 
-void loop() {}
+void loop() {
+}

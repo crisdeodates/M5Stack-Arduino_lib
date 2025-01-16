@@ -1,13 +1,25 @@
+/*
+ * SPDX-FileCopyrightText: 2025 M5Stack Technology CO LTD
+ *
+ * SPDX-License-Identifier: MIT
+ */
+/*
+ * @Hardwares: M5Core + Module SIM800L
+ * @Platform Version: Arduino M5Stack Board Manager v2.1.3
+ * @Dependent Library:
+ * M5Stack@^0.4.6: https://github.com/m5stack/M5Stack
+ */
+
 #include "M5Stack.h"
 #include "TFTTerminal.h"
+
 TFT_eSprite TerminalBuff = TFT_eSprite(&M5.Lcd);
 TFTTerminal terminal(&TerminalBuff);
 
 String waitRevice()
 {
     String recvStr;
-    do
-    {
+    do {
         recvStr = Serial2.readStringUntil('\n');
     } while (recvStr.length() == 0);
     Serial.println(recvStr);
@@ -29,17 +41,15 @@ int sendATCMDAndRevice(String cmdStr)
     waitRevice();
     String recvStr = waitRevice();
     delay(100);
-    if (recvStr.indexOf("OK") != -1)
-    {
+    if (recvStr.indexOf("OK") != -1) {
         return 0;
-    }
-    else
-    {
+    } else {
         return -1;
     }
 }
 
-void GET() {
+void GET()
+{
     terminal.println("GET Request");
     sendATCMD("AT?\r\n");
     delay(100);
@@ -57,15 +67,16 @@ void GET() {
     sendATCMDAndRevice("AT+HTTPREAD\r\n");
     delay(1000);
     String recvStr;
-    while(Serial2.available()){
-      recvStr+= Serial2.readString();
+    while (Serial2.available()) {
+        recvStr += Serial2.readString();
     }
     Serial.println(recvStr);
     terminal.println(recvStr);
     sendATCMDAndRevice("AT+HTTPTERM\r\n");
 }
 
-void POST() {
+void POST()
+{
     terminal.println("POST Request");
     sendATCMD("AT?\r\n");
     delay(100);
@@ -86,8 +97,8 @@ void POST() {
     sendATCMDAndRevice("AT+HTTPREAD\r\n");
     delay(1000);
     String recvStr;
-    while(Serial2.available()){
-      recvStr+= Serial2.readString();
+    while (Serial2.available()) {
+        recvStr += Serial2.readString();
     }
     Serial.println(recvStr);
     terminal.println(recvStr);
@@ -107,25 +118,23 @@ void setup()
     M5.Lcd.drawString("SIM800L HTTP GET/POST", 160, 10, 4);
     M5.Lcd.setTextDatum(TL_DATUM);
     M5.Lcd.setTextColor(TFT_WHITE);
-    TerminalBuff.createSprite(240,200);
-    terminal.setGeometry(20,55,300,200);
+    TerminalBuff.createSprite(240, 200);
+    terminal.setGeometry(20, 55, 300, 200);
     terminal.setFontsize(1);
     terminal.println("Press Btn A GET Request");
     terminal.println("Press Btn B POST Request");
 };
 
-
 void loop()
 {
-  M5.update();
-  if(M5.BtnA.wasPressed()) GET();
-  if(M5.BtnB.wasPressed()) POST();
-  if(M5.BtnC.wasPressed()) {
-    String recvStr;
-    recvStr = Serial2.readStringUntil('\n');
-    Serial.println(recvStr);
-    terminal.println(recvStr);
-  };
-  delay(10);
+    M5.update();
+    if (M5.BtnA.wasPressed()) GET();
+    if (M5.BtnB.wasPressed()) POST();
+    if (M5.BtnC.wasPressed()) {
+        String recvStr;
+        recvStr = Serial2.readStringUntil('\n');
+        Serial.println(recvStr);
+        terminal.println(recvStr);
+    };
+    delay(10);
 }
-

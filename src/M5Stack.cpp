@@ -4,10 +4,10 @@
 
 #include "M5Stack.h"
 
-M5Stack::M5Stack() : isInited(0) {}
+M5Stack::M5Stack() : isInited(0) {
+}
 
-void M5Stack::begin(bool LCDEnable, bool SDEnable, bool SerialEnable,
-                    bool I2CEnable) {
+void M5Stack::begin(bool LCDEnable, bool SDEnable, bool SerialEnable, bool I2CEnable) {
     // Correct init once
     if (isInited == true) {
         return;
@@ -15,6 +15,12 @@ void M5Stack::begin(bool LCDEnable, bool SDEnable, bool SerialEnable,
         isInited = true;
     }
 
+    for (auto gpio : (const uint8_t[]){18, 19, 23}) {
+        *(volatile uint32_t*)(GPIO_PIN_MUX_REG[gpio]) |= FUN_DRV_M;
+        gpio_pulldown_dis((gpio_num_t)gpio);
+        gpio_pullup_en((gpio_num_t)gpio);
+    }
+    
     // UART
     if (SerialEnable == true) {
         Serial.begin(115200);
@@ -67,7 +73,9 @@ void M5Stack::update() {
  * Function has been move to Power class.(for compatibility)
  * This name will be removed in a future release.
  */
-void M5Stack::setPowerBoostKeepOn(bool en) { M5.Power.setPowerBoostKeepOn(en); }
+void M5Stack::setPowerBoostKeepOn(bool en) {
+    M5.Power.setPowerBoostKeepOn(en);
+}
 /**
  * Function has been move to Power class.(for compatibility)
  * This name will be removed in a future release.
@@ -79,6 +87,8 @@ void M5Stack::setWakeupButton(uint8_t button) {
  * Function has been move to Power class.(for compatibility)
  * This name will be removed in a future release.
  */
-void M5Stack::powerOFF() { M5.Power.deepSleep(); }
+void M5Stack::powerOFF() {
+    M5.Power.deepSleep();
+}
 
 M5Stack M5;
